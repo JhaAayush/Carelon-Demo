@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Elevance Help Hub — Mobile Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .app-shell {
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 80px rgba(102, 126, 234, 0.2);
+      border-radius: 24px;
+      overflow: hidden;
+      background: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .gradient-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .nav-pill {
+      background: linear-gradient(to right, #f8fafc, #ffffff);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .nav-pill button {
+      position: relative;
+      font-weight: 500;
+      color: #64748b;
+      transition: all 0.3s ease;
+    }
+
+    .nav-pill button:hover {
+      color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+    }
+
+    .nav-pill button.active {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .nav-pill button.active:after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 3px 3px 0 0;
+    }
+
+    .chat-bubble {
+      max-width: 78%;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .from-user {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 18px 18px 4px 18px;
+    }
+
+    .from-bot {
+      background: #f1f5f9;
+      color: #334155;
+      border-radius: 18px 18px 18px 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 2px solid #e2e8f0;
+      color: #475569;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: #667eea;
+      color: #667eea;
+      background: rgba(102, 126, 234, 0.05);
+    }
+
+    .faq-item {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .faq-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+    }
+
+    .faq-item[open] {
+      border-color: #667eea;
+      background: linear-gradient(to bottom, rgba(102, 126, 234, 0.03), white);
+    }
+
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .faq-item summary:hover {
+      color: #667eea;
+    }
+
+    .input-field {
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .progress-step {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .progress-step:before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 24px;
+      bottom: -16px;
+      width: 2px;
+      background: #e2e8f0;
+    }
+
+    .progress-step:last-child:before {
+      display: none;
+    }
+
+    .step-dot {
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .step-dot.completed {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .step-dot.pending {
+      background: #cbd5e1;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-badge.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-badge.warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-badge.info {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .card {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
+    }
+
+    .icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+    }
+
+    @media (max-width:420px) {
+      .app-shell {
+        margin: 12px;
+        border-radius: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+  <div class="app-shell">
+    <!-- Header -->
+    <header class="gradient-header p-5">
+      <div class="flex items-center gap-3">
+        <div class="icon-badge" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: white;">
+          <i class="fas fa-heartbeat"></i>
+        </div>
+        <div class="text-white">
+          <div class="font-bold text-lg">Elevance Help Hub</div>
+          <div class="text-sm opacity-90">Member & Provider Self-Service</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Nav Pills -->
+    <div class="nav-pill flex items-center justify-around p-2">
+      <button class="nav-btn active w-full text-center py-3 px-2 rounded-lg text-sm" data-view="faqs">
+        <i class="fas fa-question-circle"></i> FAQs
+      </button>
+      <button class="nav-btn w-full text-center py-3 px-2 rounded-lg text-sm" data-view="chat">
+        <i class="fas fa-robot"></i> AI Chat
+      </button>
+      <button class="nav-btn w-full text-center py-3 px-2 rounded-lg text-sm" data-view="raise">
+        <i class="fas fa-pen-square"></i> Query
+      </button>
+      <button class="nav-btn w-full text-center py-3 px-2 rounded-lg text-sm" data-view="track">
+        <i class="fas fa-chart-line"></i> Track
+      </button>
+    </div>
+
+    <!-- Container for views -->
+    <main class="p-5 min-h-[520px] bg-gradient-to-b from-slate-50 to-white">
+
+      <!-- FAQs View -->
+      <section id="view-faqs" class="view">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Top FAQs</h2>
+            <p class="text-sm text-slate-500">Quick answers to common questions</p>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <details class="faq-item p-4">
+            <summary>
+              <i class="fas fa-clipboard-check text-indigo-500"></i>
+              How do I check my claim status?
+            </summary>
+            <div class="pt-3 text-sm text-slate-600 leading-relaxed">
+              Open the <strong>Claim Tracker</strong> tab and enter your claim ID. You can also enable push
+              notifications to receive updates for each milestone automatically.
+            </div>
+          </details>
+
+          <details class="faq-item p-4">
+            <summary>
+              <i class="fas fa-id-card text-indigo-500"></i>
+              How do I download my ID card?
+            </summary>
+            <div class="pt-3 text-sm text-slate-600 leading-relaxed">
+              Navigate to <strong>My Profile → ID Card</strong>. Tap the download button to save as PDF or add directly
+              to your mobile wallet.
+            </div>
+          </details>
+
+          <details class="faq-item p-4">
+            <summary>
+              <i class="fas fa-file-medical text-indigo-500"></i>
+              What is prior authorization?
+            </summary>
+            <div class="pt-3 text-sm text-slate-600 leading-relaxed">
+              Certain medical procedures require pre-approval from your insurance. Use <strong>Provider Tools</strong>
+              or check the authorization section in your plan details for more information.
+            </div>
+          </details>
+
+          <div class="mt-6">
+            <button id="ask-ai-from-faq" class="btn-primary w-full py-3 rounded-xl">
+              <i class="fas fa-robot mr-2"></i>
+              Ask AI Assistant
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chat View -->
+      <section id="view-chat" class="view hidden">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">AI Assistant</h2>
+            <p class="text-sm text-slate-500">Ask questions in natural language</p>
+          </div>
+        </div>
+
+        <div id="chat-window"
+          class="h-[340px] overflow-y-auto p-4 rounded-2xl bg-white border-2 border-slate-100 shadow-sm">
+          <div class="space-y-3" id="chat-messages">
+            <div class="flex">
+              <div class="from-bot p-3 rounded-xl text-sm">
+                <div class="flex items-start gap-2">
+                  <i class="fas fa-robot text-indigo-500 mt-0.5"></i>
+                  <div>
+                    <div class="font-semibold mb-1">Hello! I'm here to help.</div>
+                    <div class="text-slate-600">Try asking:<br />
+                      • "Where's my claim #12345?"<br />
+                      • "How do I download my ID card?"<br />
+                      • "What's covered under my plan?"</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form id="chat-form" class="mt-4 flex gap-2">
+          <input id="chat-input" class="input-field flex-1 rounded-xl px-4 py-3 text-sm"
+            placeholder="Type your question..." />
+          <button class="btn-primary px-5 py-3 rounded-xl">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+
+        <div class="mt-4 p-3 bg-blue-50 rounded-xl border border-blue-100">
+          <div class="flex items-start gap-2 text-xs text-blue-700">
+            <i class="fas fa-info-circle mt-0.5"></i>
+            <div>Not satisfied? I can create a support ticket with all the context from our conversation.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Raise Query View -->
+      <section id="view-raise" class="view hidden">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-pen-square"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Raise a Query</h2>
+            <p class="text-sm text-slate-500">Submit a structured support request</p>
+          </div>
+        </div>
+
+        <form id="raise-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-2">
+              <i class="fas fa-folder mr-1 text-indigo-500"></i> Category
+            </label>
+            <select id="cat" class="input-field w-full rounded-xl px-4 py-3 text-sm bg-white">
+              <option>Claim status</option>
+              <option>Billing / Payment</option>
+              <option>Coverage / Eligibility</option>
+              <option>Provider dispute</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-2">
+              <i class="fas fa-align-left mr-1 text-indigo-500"></i> Short description
+            </label>
+            <input id="summary" class="input-field w-full rounded-xl px-4 py-3 text-sm"
+              placeholder="e.g., My claim #12345 shows 'Under review' for 3 weeks" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-2">
+              <i class="fas fa-paperclip mr-1 text-indigo-500"></i> Attach file (optional)
+            </label>
+            <input id="file" type="file"
+              class="w-full text-sm p-3 border-2 border-dashed border-slate-200 rounded-xl hover:border-indigo-300 transition-colors" />
+          </div>
+
+          <div class="flex gap-3 pt-2">
+            <button type="submit" class="btn-primary flex-1 py-3 rounded-xl">
+              <i class="fas fa-check-circle mr-2"></i>
+              Submit Query
+            </button>
+            <button type="button" id="save-draft" class="btn-secondary flex-1 py-3 rounded-xl">
+              <i class="fas fa-save mr-2"></i>
+              Save Draft
+            </button>
+          </div>
+        </form>
+
+        <div id="raise-result"
+          class="hidden mt-5 p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white flex-shrink-0">
+              <i class="fas fa-check"></i>
+            </div>
+            <div>
+              <div class="font-bold text-green-800">Query Submitted Successfully!</div>
+              <div class="text-sm text-green-700 mt-1">
+                Your ticket <span id="ticket-id" class="font-semibold">TCK-XXXX</span> has been created. We'll notify
+                you via SMS and email with updates.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Claim Tracker View -->
+      <section id="view-track" class="view hidden">
+        <div class="section-header">
+          <div class="section-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Claim Tracker</h2>
+            <p class="text-sm text-slate-500">Real-time claim status updates</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <input id="claim-id" class="input-field w-full rounded-xl px-4 py-3 text-sm"
+              placeholder="Enter claim ID, e.g., CLM-102938" />
+          </div>
+          <button id="track-btn" class="btn-primary w-full py-3 rounded-xl">
+            <i class="fas fa-search mr-2"></i>
+            Track Claim
+          </button>
+
+          <div id="claim-card" class="hidden card p-5">
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <div class="text-sm font-semibold text-slate-500">Claim Number</div>
+                <div class="text-xl font-bold text-slate-800" id="claim-number">CLM-102938</div>
+                <div class="text-xs text-slate-500 mt-1">
+                  <i class="fas fa-calendar mr-1"></i> Submitted: Sep 28, 2025
+                  <span class="mx-2">•</span>
+                  <i class="fas fa-hospital mr-1"></i> City Hospital
+                </div>
+              </div>
+              <div class="status-badge success">
+                <i class="fas fa-check-circle"></i>
+                Paid
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Progress</div>
+                <div class="text-xs font-semibold text-indigo-600" id="progress-text">60% Complete</div>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                <div id="progress-bar" class="h-3 rounded-full transition-all duration-500"
+                  style="width:60%; background: linear-gradient(90deg,#667eea,#764ba2);"></div>
+              </div>
+            </div>
+
+            <div class="space-y-4 mb-5">
+              <div class="progress-step">
+                <span class="step-dot completed"></span>
+                <div>
+                  <div class="font-semibold text-slate-800">Received</div>
+                  <div class="text-xs text-slate-500 mt-0.5">We received your claim and it's awaiting review</div>
+                </div>
+              </div>
+
+              <div class="progress-step">
+                <span class="step-dot completed"></span>
+                <div>
+                  <div class="font-semibold text-slate-800">Under Review</div>
+                  <div class="text-xs text-slate-500 mt-0.5">Clinical team is checking the details</div>
+                </div>
+              </div>
+
+              <div class="progress-step">
+                <span class="step-dot completed"></span>
+                <div>
+                  <div class="font-semibold text-slate-800">Approved</div>
+                  <div class="text-xs text-slate-500 mt-0.5">Claim approved and pending payment processing</div>
+                </div>
+              </div>
+
+              <div class="progress-step">
+                <span class="step-dot pending"></span>
+                <div>
+                  <div class="font-semibold text-slate-400">Paid</div>
+                  <div class="text-xs text-slate-400 mt-0.5">Payment will be posted within 3 business days</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <button id="download-summary" class="btn-secondary flex-1 py-3 rounded-xl text-sm">
+                <i class="fas fa-download mr-2"></i>
+                Download
+              </button>
+              <button id="open-ticket" class="btn-primary flex-1 py-3 rounded-xl text-sm">
+                <i class="fas fa-ticket-alt mr-2"></i>
+                Support
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer quick actions -->
+    <footer class="p-4 border-t-2 border-slate-100 bg-white flex items-center gap-3">
+      <button id="call-help"
+        class="flex-1 py-3 rounded-xl bg-gradient-to-r from-rose-50 to-red-50 text-rose-600 border-2 border-rose-200 text-sm font-semibold hover:from-rose-100 hover:to-red-100 transition-all">
+        <i class="fas fa-phone-alt mr-2"></i>
+        Call Support
+      </button>
+      <button id="open-chat-quick" class="btn-primary py-3 px-5 rounded-xl text-sm">
+        <i class="fas fa-comments mr-2"></i>
+        Chat
+      </button>
+    </footer>
+  </div>
+
+  <script>
+    // Simple view routing
+    const views = document.querySelectorAll('.view');
+    const navBtns = document.querySelectorAll('.nav-btn');
+
+    function showView(name) {
+      views.forEach(s => s.classList.add('hidden'));
+      document.getElementById('view-' + name).classList.remove('hidden');
+
+      // Update active nav button
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[data-view="${name}"]`).classList.add('active');
+
+      // scroll chat to bottom when shown
+      if (name === 'chat') setTimeout(() => { document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight }, 50);
+    }
+
+    navBtns.forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
+
+    // Quick jump from FAQ ask
+    document.getElementById('ask-ai-from-faq').addEventListener('click', () => showView('chat'));
+
+    // Chat simulation
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    function appendMessage(text, from = 'bot') {
+      const wrap = document.createElement('div');
+      wrap.className = 'flex ' + (from === 'user' ? 'justify-end' : 'justify-start');
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble p-3 text-sm ' + (from === 'user' ? 'from-user' : 'from-bot');
+
+      if (from === 'bot') {
+        bubble.innerHTML = `<div class="flex items-start gap-2"><i class="fas fa-robot text-indigo-500 mt-0.5 flex-shrink-0"></i><div>${text}</div></div>`;
+      } else {
+        bubble.innerText = text;
+      }
+
+      wrap.appendChild(bubble);
+      chatMessages.appendChild(wrap);
+      document.getElementById('chat-window').scrollTop = document.getElementById('chat-window').scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = chatInput.value.trim();
+      if (!q) return;
+      appendMessage(q, 'user');
+      chatInput.value = '';
+
+      // Mock AI response with simple rules
+      setTimeout(() => {
+        let resp = '';
+        const ql = q.toLowerCase();
+        if (ql.includes('claim')) resp = '<strong>I can check claim status.</strong><br/>Please enter your claim ID or go to the <strong>Claim Tracker</strong> tab for step-by-step updates.';
+        else if (ql.includes('id card') || ql.includes('download id')) resp = '<strong>To download your ID card:</strong><br/>Profile → ID Card → Download<br/><br/>Would you like me to send a link to your registered email?';
+        else if (ql.includes('prior author') || ql.includes('authorization')) resp = '<strong>Prior authorizations</strong> are handled through a separate process. I can start a prior auth request or connect you to Provider Tools.';
+        else resp = 'I don\'t have a direct answer to that yet. Would you like me to <strong>create a support ticket</strong> with these details?';
+
+        appendMessage(resp, 'bot');
+      }, 700);
+    });
+
+    // Raise query form
+    const raiseForm = document.getElementById('raise-form');
+    raiseForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cat = document.getElementById('cat').value;
+      const summary = document.getElementById('summary').value || 'No summary provided';
+      // Create a fake ticket id
+      const id = 'TCK-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+      document.getElementById('ticket-id').innerText = id;
+      document.getElementById('raise-result').classList.remove('hidden');
+      // Optionally reset form
+      raiseForm.reset();
+    });
+
+    document.getElementById('save-draft').addEventListener('click', () => {
+      alert('✓ Draft saved to your browser storage.');
+    });
+
+    // Claim tracker
+    document.getElementById('track-btn').addEventListener('click', () => {
+      const cid = document.getElementById('claim-id').value.trim() || 'CLM-102938';
+      document.getElementById('claim-number').innerText = cid;
+      document.getElementById('claim-card').classList.remove('hidden');
+      // For demo, randomize progress
+      const perc = [25, 50, 75, 100][Math.floor(Math.random() * 4)];
+      document.getElementById('progress-bar').style.width = perc + '%';
+      document.getElementById('progress-text').innerText = perc + '% Complete';
+
+      // Update step dots based on progress
+      const dots = document.querySelectorAll('.step-dot');
+      const steps = [25, 50, 75, 100];
+      dots.forEach((dot, idx) => {
+        if (steps[idx] <= perc) {
+          dot.classList.remove('pending');
+          dot.classList.add('completed');
+          dot.parentElement.querySelector('.font-semibold').classList.remove('text-slate-400');
+          dot.parentElement.querySelector('.font-semibold').classList.add('text-slate-800');
+          dot.parentElement.querySelectorAll('.text-xs').forEach(el => {
+            el.classList.remove('text-slate-400');
+            el.classList.add('text-slate-500');
+          });
+        } else {
+          dot.classList.remove('completed');
+          dot.classList.add('pending');
+          dot.parentElement.querySelector('.font-semibold').classList.remove('text-slate-800');
+          dot.parentElement.querySelector('.font-semibold').classList.add('text-slate-400');
+          dot.parentElement.querySelectorAll('.text-xs').forEach(el => {
+            el.classList.remove('text-slate-500');
+            el.classList.add('text-slate-400');
+          });
+        }
+      });
+    });
+
+    // Footer actions
+    document.getElementById('open-chat-quick').addEventListener('click', () => showView('chat'));
+    document.getElementById('call-help').addEventListener('click', () => alert('📞 Dialing Elevance Support...\n\n(This is a demo)'));
+
+    document.getElementById('download-summary').addEventListener('click', () => alert('📄 Downloading claim summary PDF...\n\n(This is a demo)'));
+    document.getElementById('open-ticket').addEventListener('click', () => {
+      alert('🎫 Opening support ticket...\n\n(This is a demo)');
+      showView('raise');
+    });
+
+    // Initialize default view
+    showView('faqs');
+  </script>
+</body>
+
+</html>
